@@ -1,12 +1,15 @@
 from fastapi import FastAPI
 from typing import Annotated
 from pydantic import BaseModel, StringConstraints
+from mock_orders import router as mock_orders_router
 
 app = FastAPI(
     title = "SupportFlow",
     description = "AI-assisted customer support triage.",
     version = "0.1.0"
 )
+
+app.include_router(mock_orders_router)
 
 class SupportResquestInput(BaseModel):
     message: Annotated[
