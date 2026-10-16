@@ -2,14 +2,12 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Literal
 from datetime import date
+from schemas import Order
 
 
 router = APIRouter(prefix = "/mock", tags = ["Mock orders"])
 
-class Order(BaseModel):
-    order_id: str
-    status: Literal["processing", "shipped", "delivered", "cancelled"]
-    estimated_delivery: date | None = None
+
 
 ORDERS = {
     "ORD-1001": Order(

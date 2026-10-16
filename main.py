@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from typing import Annotated
 from pydantic import BaseModel, StringConstraints
 from mock_orders import router as mock_orders_router
+from triage_service import process_request
+from schemas import ProcessRequest
 
 app = FastAPI(
     title = "SupportFlow",
@@ -25,6 +27,6 @@ class SupportResquestInput(BaseModel):
 def healt_check() -> dict[str, str]:
     return {"status": "ok"}
 
-@app.post("/requests")
-def create_request(payload: SupportResquestInput) -> dict[str, str]:
-    return {"message": payload.message}
+@app.post("/requests", response_model = ProcessRequest)
+def create_request(payload: SupportResquestInput) -> ProcessRequest:
+    return process_request(payload.message)
